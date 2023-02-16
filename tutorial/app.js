@@ -1,12 +1,27 @@
-// CommonJS, every file is module (by default)
-// Modules - Encapsulated Code (only share miniumum)
+const { readFile, writeFile } = require("fs");
 
-const names = require('./4-names')
-const {sayHi, sayHello} = require('./5-utils')
-const data = require('./6-alternative-flavor')
-require('./7-mind-grenade');
-
-// sayHi(names.john);
-// sayHi(names.peter);
-// sayHello(names.john);
-// sayHello(names.peter);
+readFile("./content/first.txt", "utf8", (err, result) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  const first = result;
+  readFile("./content/second.txt", "utf8", (err, result) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    const second = result;
+    writeFile(
+      './content/result-async.txt',
+      `Here is the result: ${first}, ${second}`,
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(result);
+      }
+    );
+  });
+});
